@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Inventário</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+<!-- Tela de Introdução com Vídeo -->
+<div id="intro-screen">
+    <video id="intro-video" autoplay muted>
+        <source src="intro.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos.
+    </video>
+    <button id="skip-intro" onclick="skipIntro()">Pular Introdução</button>
+</div>
+
+<!-- Introdução e Guia -->
+<div class="container" id="main-content" style="display: none;">
+    <h2>Bem-vindo ao Sistema de Inventário</h2>
+    <p>Use os botões abaixo para gerenciar seu inventário. Você pode adicionar categorias, subcategorias, importar arquivos CSV e visualizar o inventário atualizado.</p>
+
+    <h3>📥 Como deve ser o arquivo CSV?</h3>
+    <p>O arquivo deve estar no seguinte formato (cada item em uma linha separado por vírgula):</p>
+    <pre>
+Item,Categoria,Quantidade
+4 Copos Transparentes,Cozinha,4
+Relógio de Parede,Decoração,1
+TV + Controle,Eletrodomésticos,1
+    </pre>
+
+    <!-- Botões Rápidos -->
+    <div class="quick-actions">
+        <button onclick="showInventory()">📦 Abrir Inventário</button>
+        <button onclick="showCategories()">📂 Gerenciar Categorias</button>
+        <input type="file" id="csvFileInput" accept=".csv" style="display:none;">
+        <button onclick="document.getElementById('csvFileInput').click()">📥 Importar CSV</button>
+    </div>
+
+    <!-- Gerenciamento de Categorias -->
+    <div id="category-section" style="display: none;">
+        <h3>Gerenciamento de Categorias</h3>
+        <table id="category-table">
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th>Subcategorias</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="openCategoryModal()">➕ Adicionar Categoria</button>
+    </div>
+
+    <!-- Modal de Adição de Categorias e Subcategorias -->
+    <div class="modal" id="categoryModal">
+        <h3>Editar Categoria</h3>
+        <input type="text" id="editCategoryName" placeholder="Nome da Categoria">
+        <textarea id="editCategoryItems" placeholder="Itens separados por vírgula"></textarea>
+        <input type="text" id="editSubCategory" placeholder="Nova Subcategoria">
+        <button onclick="saveCategory()">Salvar</button>
+        <button onclick="closeCategoryModal()">Cancelar</button>
+    </div>
+
+    <!-- Inventário -->
+    <div id="inventory-section" style="display: none;">
+        <h3>Inventário</h3>
+        <table id="inventory-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Categoria</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => console.log("Service Worker Registrado!"));
+    }
+</script>
+</body>
+</html>
